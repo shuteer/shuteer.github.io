@@ -1,0 +1,278 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="bookmark"  type="image/x-icon"  href="/img/logo_miccall.png"/>
+	<link rel="shortcut icon" href="/img/logo_miccall.png">
+	
+			    <title>
+    MS08067 Dark
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/mic_main.css" />
+    <link rel="stylesheet" href="/css/dropdownMenu.css" />
+    <meta name="keywords" content="APT,内网渗透,WEB渗透" />
+    
+    	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	 
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css" />
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/img/bg.jpg') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
+</head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_coy.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a href="/" class="logo">MS08067</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special" >
+            <ul class="menu links" >
+			<!-- Homepage  主页  --> 
+			<li >
+	            <a href="/" rel="nofollow">Homepage</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/about/" title="ABOUT">
+		                ABOUT
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/mybook/" title="MYBOOK">
+		                MYBOOK
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/gallery/" title="GALLERY">
+		                GALLERY
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/tools/" title="TOOLS">
+		                TOOLS
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+		            
+		            
+		            
+		            
+			</ul>
+</nav>
+
+        <div id="main" >
+            <div class ="post_page_title_img" style="height: 25rem;background-image: url(/img/timg.jpg);background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
+                <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >内网安全之域服务账号破解实践</h2></a>
+            </div>
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <h1 id="内网安全之域服务账号破解实践"><a href="#内网安全之域服务账号破解实践" class="headerlink" title="内网安全之域服务账号破解实践"></a>内网安全之域服务账号破解实践</h1><h2 id="0x01-引言"><a href="#0x01-引言" class="headerlink" title="0x01 引言"></a>0x01 引言</h2><p>对于国内的网络管理者而言，现有的网络安全防护手段大多强调对来自外部的主动攻击进行预防，检测以及处理，而授予内部主机更多的信任。但是，统计数字表明，相当多的安全事件是由内网用户有意或无意的操作造成的。为保护内网的安全，一些单 位将内网与外网物理隔离，或者将内部通过统一的网关接入外网，并在网关处架设防火墙、IPS、IDS等安全监控设备。尽管如上述所示的各类安全措施都得到了实现，众多管理者们却仍然头疼于泄密事件或其它各类内网安全事件的频繁发生，这就充分说明 了内网安全维护的复杂性。所以很多企业会采取使用域来管理内部较为复杂的网络， 因为它可以安全集中管理，统一安全策略。<br>域控制器相当一个门卫，它包含了由这个域的账户密码、管理策略等信息构成的数据库。当一台计算机登录域时，域控制器首先要鉴别这台电脑是否是属于这个域的，用户使用的登录账号和密码是否正确。如果正确则允许计算机登入这个域，使用该域内其有权限访问的任何资源，像文件服务器、打印服务器（也就是说域控制器仅起到一个验证作用，访问其他资源并不需要再跟域控制器扯上关系）;如果不正确则不允许 计算机登入，这时计算机将无法访问域内任何资源，这在一定程度上保护了企业网络 资源。<br>本文将从攻击者的角度出发，针对域服务账号的安全作出相关的安全探索与研究。</p>
+<h2 id="0x02-何为Kerberoast"><a href="#0x02-何为Kerberoast" class="headerlink" title="0x02 何为Kerberoast"></a>0x02 何为Kerberoast</h2><p>Kerberoast能够在不对目标系统发送任何数据的情况下用普通用户身份从活动目录中提取服务的账户凭证。因为人们总是喜欢设置弱口令，所以这种攻击经常能够成功。原因是：大多数服务账户的密码都和域的密码最短长度限制一样长（通常是10个或12个字符）,这意味着即使是采用暴力破解的方式，所花费的时间也不太可能超过密码过期时限。更何况有的服务账户甚至还没有设置密码过期时限。更好玩的是，大多数服务账户都有权限过大的问题，通常还是域管理员组的成员，有着对活动目录的全部权限（尽管有时候服务账户只需要修改某些特定对象的属性或者只需在特定服务上拥有管理权限）。</p>
+<blockquote>
+<p><strong>知识点1</strong>：这种攻击对Windows系统内置账户不会成功，因为这类账户有着128位长的密码，这么长的密码不可能在短时间内破解出来。</p>
+</blockquote>
+<p>攻击的步骤包括为目标的服务账户的服务器主体名称(Service Principle Name-SPN)请求一个Kerbero服务票据 (TGS) 。这里会采用一个有效的用户认证票据（TGT）来请求一个或几个运行在服务器上的目标服务票据。域控不会检测用户是否真正连接到了这些资源上(即使用户可能真的有权限访问)。域控会在活动目录中查找SPN并且用SPN关联的用户账户把票据进行加密，以此赋予用户访问服务的权限。请求的Kerbero服务票据的加密类型是 RC4_HMAC_MD5, 这意味着服务账户的NTLM密码哈希会被用来加密服务票据。所以Kerberoast能够通过尝试不同的NTLM哈希来解开kerberos票据，一旦票据被成功解开，它的密码也就到手了。</p>
+<blockquote>
+<p><strong>知识点2</strong>：SPN 是服务在使用 Kerberos 身份验证的网络上的唯一标识符。 它由服务类、主机名和端口组成。 在使用 Kerberos 身份验证的网络中，必须在内置计算机帐户（如 NetworkService 或 LocalSystem）或用户帐户下为服务器注册 SPN。 对于内置帐户，SPN 将自动进行注册。 但是，如果在域用户帐户下运行服务，则必须为要使用的帐户手动注册 SPN。</p>
+</blockquote>
+<blockquote>
+<p><strong>知识点3</strong>:获得服务票据不需要提权，同时也不会发送数据到目标机器。</p>
+</blockquote>
+<h2 id="0x03-工具简介"><a href="#0x03-工具简介" class="headerlink" title="0x03 工具简介"></a>0x03 工具简介</h2><ol>
+<li>GetUserSPNs.vbs 或者GetUserSPNs.ps1 获取spn账号，在本文中获取使用的是系统默认的工具setspn（在域控制器上运行该工具必须具有域管理员身份）</li>
+<li>mimikatz 获取用户密码工具 </li>
+<li>tgsrepcrack.py破解用户票据 </li>
+<li>密码字典</li>
+</ol>
+<h2 id="0x04-查看当前电脑的用户票据"><a href="#0x04-查看当前电脑的用户票据" class="headerlink" title="0x04 查看当前电脑的用户票据"></a>0x04 查看当前电脑的用户票据</h2><p>查看当前电脑的所有票据使用到的命令为klist。获取当前电脑登陆的票据可以直接使用klist来获取，具体如下图所示：<br><img src="http://olizegh9a.bkt.clouddn.com/blog/180125/Gfla654gjA.png?imageslim" alt="mark"></p>
+<h2 id="0x05-获取所有的域服务账号"><a href="#0x05-获取所有的域服务账号" class="headerlink" title="0x05 获取所有的域服务账号"></a>0x05 获取所有的域服务账号</h2><p>获取所有的域服务账号主要有三种方法，第一种是直接使用windows自带的setspn，第二种是使用vbs的脚本GetUserSPNs.vbs，第三者使用powershell的脚本GetUserSPNs.ps来获取。在本文中使用了第一种方法来获取所有的域服务账号，命令为setspn -T DOMAINNAME -F -Q <em>/</em>。<br><img src="http://olizegh9a.bkt.clouddn.com/blog/180125/2iambKJ3cK.png?imageslim" alt="mark"></p>
+<h2 id="0x06-在本地获取域服务账号的票据"><a href="#0x06-在本地获取域服务账号的票据" class="headerlink" title="0x06 在本地获取域服务账号的票据"></a>0x06 在本地获取域服务账号的票据</h2><p>在本机获取指定的域服务账号的票据 获取服务账号administrator的相关票据。命令如下：<br><code>PS C:\&gt; Add-Type -AssemblyName System.IdentityModel</code><br><code>PS C:\&gt; New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList</code><br><img src="http://olizegh9a.bkt.clouddn.com/blog/180125/7786f9k3IA.png?imageslim" alt="mark"></p>
+<p>我们现在查看已经获取的用户帐号administrator的票据</p>
+<p><img src="http://olizegh9a.bkt.clouddn.com/blog/180125/Dk3DjGfC1h.png?imageslim" alt="mark"></p>
+<h2 id="0x07-获取所有的域服务账号的票据"><a href="#0x07-获取所有的域服务账号的票据" class="headerlink" title="0x07 获取所有的域服务账号的票据"></a>0x07 获取所有的域服务账号的票据</h2><p><code>C:&gt; Add-Type  -AssemblyName  System.IdentityModel</code><br><img src="http://olizegh9a.bkt.clouddn.com/blog/180125/50Jg249h09.png?imageslim" alt="mark"></p>
+<h2 id="0x08-导出所有域用户的票据"><a href="#0x08-导出所有域用户的票据" class="headerlink" title="0x08 导出所有域用户的票据"></a>0x08 导出所有域用户的票据</h2><p>在此基础上可以使用mimikatz工具从RAM中对所有的票据进行导出，具体使用到的命令如下：</p>
+<p><code>mimikatz # kerberos::list /export</code></p>
+<h2 id="0x09-破解获取的用户票据"><a href="#0x09-破解获取的用户票据" class="headerlink" title="0x09 破解获取的用户票据"></a>0x09 破解获取的用户票据</h2><p>接着在KALI下离线使用tgsrepcrack.py对导出的票据进行暴力破解，具体操作如下：<br>使用的命令为：</p>
+<p><code>tgsrepcrack.py -w wordlist.txt *.kirbi</code></p>
+<p>root@kali:/home/kerberoast# python tgsrepcrack.py pass.txt 2-40a10000- Administrator@MSSQLSvc~antivirusserver.ppum.xxxxx.net-PPUM.xxxxx.NET.kirbi found password for ticket 0: good.net2007 File: 2-40a10000- Administrator@MSSQLSvc~antivirusserver.ppum.xxxxx.net-PPUM.xxxxx.NET.kirbi  All tickets cracked!</p>
+<p>很顺利，我们成功破解出了密码good.net2007。</p>
+<h2 id="0x10-对域进行深层次的渗透（略，等下文再续）"><a href="#0x10-对域进行深层次的渗透（略，等下文再续）" class="headerlink" title="0x10 对域进行深层次的渗透（略，等下文再续）"></a>0x10 对域进行深层次的渗透（略，等下文再续）</h2><p><strong>The End.</strong></p>
+
+            </div>
+
+            <!-- Post Comments -->
+            
+    <!-- 使用 DISQUS_CLICK -->
+<div id="disqus-comment">
+    <div id="disqus_thread"></div>
+
+<!-- add animation -->
+<style>
+	.disqus_click_btn {
+            line-height: 30px;
+            margin: 0;
+            min-width: 50px;
+            padding: 0 14px;
+            display: inline-block;
+            font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0;
+            overflow: hidden;
+            will-change: box-shadow;
+            transition: box-shadow .2s cubic-bezier(.4, 0, 1, 1), background-color .2s cubic-bezier(.4, 0, .2, 1), color .2s cubic-bezier(.4, 0, .2, 1);
+            outline: 0;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            vertical-align: middle;
+            border: 0;
+            background: rgba(158, 158, 158, .2);
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+            color: #fff;
+            background-color: #7EC0EE;
+            text-shadow: 0
+        }
+</style>
+	
+<div class="btn_click_load" id="disqus_bt"> 
+    <button class="disqus_click_btn">点击查看评论</button>
+</div>
+
+<!--
+<script type="text/javascript">
+$('.btn_click_load').click(function() {
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'http-miccall-tech'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    document.getElementById('disqus_bt').style.display = "none";
+});
+</script>
+-->
+<script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'https://shuteer.github.io/2017/03/20/内⽹安全之域服务账号破解实践/';  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = 'https://shuteer.github.io/2017/03/20/内⽹安全之域服务账号破解实践/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+</script>
+
+<script type="text/javascript">
+    $('.btn_click_load').click(function() {  //click to load comments
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document;
+            var s = d.createElement('script');
+            s.src = '//http-miccall-tech.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', + new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+        $('.btn_click_load').css('display','none');
+    });
+</script>
+</div>
+<style>
+    #disqus-comment{
+        background-color: #eee;
+        padding: 2pc;
+    }
+</style>
+
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            <ul>
+                <li>&copy;Powered By <a href="https://hexo.io/zh-cn/" style="border-bottom: none;">hexo</a></li>
+                <li>Design: <a href="http://miccall.tech " style="border-bottom: none;">miccall</a></li>
+            </ul>
+            
+            	<span id="busuanzi_container_site_pv">2018总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
+</html>
