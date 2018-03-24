@@ -1,0 +1,225 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="bookmark"  type="image/x-icon"  href="/img/logo_miccall.png"/>
+	<link rel="shortcut icon" href="/img/logo_miccall.png">
+	
+			    <title>
+    MS08067 Dark
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/mic_main.css" />
+    <link rel="stylesheet" href="/css/dropdownMenu.css" />
+    <meta name="keywords" content="APT攻防,内网渗透,内网安全攻防,实战渗透测试,WEB安全攻防,徐焱,shuteer,ms08067" />
+    
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css" />
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/img/bg.jpg') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
+</head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_coy.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a href="/" class="logo">MS08067</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special" >
+            <ul class="menu links" >
+			<!-- Homepage  主页  --> 
+			<li >
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/about/" title="简历">
+		                简历
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/group/" title="团队">
+		                团队
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/tiquan/" title="提权">
+		                提权
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/web/" title="WEB">
+		                WEB
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/neiwang/" title="内网">
+		                内网
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/tools/" title="工具">
+		                工具
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+		            
+		            
+		            
+		            
+			</ul>
+</nav>
+
+        <div id="main" >
+            <div class ="post_page_title_img" style="height: 25rem;background-image: url();background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
+                <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >系统错误配置提权之Trusted Service Paths</h2></a>
+            </div>
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <h1 id="系统错误配置提权之Trusted-Service-Paths"><a href="#系统错误配置提权之Trusted-Service-Paths" class="headerlink" title="系统错误配置提权之Trusted Service Paths"></a>系统错误配置提权之Trusted Service Paths</h1><h2 id="0×01-Trusted-Service-Paths（可信任服务路径）漏洞介绍"><a href="#0×01-Trusted-Service-Paths（可信任服务路径）漏洞介绍" class="headerlink" title="0×01 Trusted Service Paths（可信任服务路径）漏洞介绍"></a>0×01 Trusted Service Paths（可信任服务路径）漏洞介绍</h2><p>“Trusted Service Paths”漏洞是由系统中的“CreateProcess”函数引起的，利用了windows文件路径解析的特性，并涉及了服务路径的文件/文件夹权限，存在缺陷的服务程序利用了属于可执行文件的文件/文件夹权限。如果权限合适，我们可以上传恶意可执行文件。简单讲就是查找系统服务文件中存在非引用路径。如果一个服务调用可执行文件，没有正确处理引用的全路径名，就可以利用这个漏洞。</p>
+<h2 id="0×02-Trusted-Service-Paths漏洞产生原因"><a href="#0×02-Trusted-Service-Paths漏洞产生原因" class="headerlink" title="0×02 Trusted Service Paths漏洞产生原因"></a>0×02 Trusted Service Paths漏洞产生原因</h2><p>windows服务通常都是以System权限运行的，所以系统在解析服务的二进制文件对应的文件路径中的空格的时候也会以系统权限进行解析。如果我们能利用这一特性，就有机会进行权限提升。</p>
+<p>例如，有如下的文件路径: </p>
+<p>C:\Program Files\Some Folder\Service.exe</p>
+<p>对于上面文件路径中的每一个空格，windows都会尝试寻找并执行名字与空格前的名字向匹配的程序。操作系统会对文件路径中空格的所有可能进行尝试，直到找到一个匹配的程序。以上面的例子为例，windows会依次尝试确定和执行下面的程序：</p>
+<p>C:\Program.exe</p>
+<p>C:\Program Files\Some.exe</p>
+<p>C:\Program Files\Some Folder\Service.exe</p>
+<p>所以如果我们能够上传一个适当命名的恶意可执行程序在受影响的目录，服务一旦重启，我们的恶意程序就会以system权限运行(大多数情况下)。</p>
+<h2 id="0×03-Metasploit下Trusted-Service-Paths实战"><a href="#0×03-Metasploit下Trusted-Service-Paths实战" class="headerlink" title="0×03 Metasploit下Trusted Service Paths实战"></a>0×03 Metasploit下Trusted Service Paths实战</h2><p>此时假设我们通过一系列前期渗透，已经成功获得了目标机的meterpreter shell（过程略），当前权限为shuteer，我们想获取系统的system权限，但是尝试了各类提权方法后失败，如下图所示。此时我们可以尝试通过TrustedService Paths漏洞来尝试实现权限的提升。<br><img src="http://olizegh9a.bkt.clouddn.com/blog/180127/LFhgj45Kfi.png?imageslim" alt="mark"></p>
+<p>1.先检测目标主机是否存在该漏洞。</p>
+<p>理论上讲，如果一个服务的可执行文件的路径没有用双引号封闭，并且包含空格，那么这个服务就是有漏洞的。<br>我们在meterpreter shell命令提示符下输入shell命令进入目标机cmd下，然后使用下列wmi查询命令来列举受害者机器上所有的没有加引号的服务路径(除去了windows本身的服务)。如下图所示。</p>
+<p><code>wmic service get name,displayname,pathname,startmode |findstr /i &quot;Auto&quot; |findstr /i /v &quot;C:\Windows\\&quot; |findstr /i /v &quot;&quot;&quot;</code></p>
+<p><img src="http://olizegh9a.bkt.clouddn.com/blog/180127/AEcHb8fGEA.png?imageslim" alt="mark"></p>
+<p>可以看到，有“Vulnerable Service”、“OmniServ”、“OmniServer”、“OmniServers”四个服务对应的二进制文件路径没有引号包含起来，并且路径中包含空格。是存在该漏洞的，但在上传可执行文件进去之前，我们需要确定我们对目标文件夹是否有写入的权限。</p>
+<p>2.<strong>检查对有漏洞目录是否有写入的权限，这个很关键。</strong></p>
+<p>这里我们使用Windows内建的一个工具，icacls，下面我们用这个工具依次来检查“C:\Program Files”、“C:\Program Files\Common Files”、“C:\Program Files\Common Files\microsoft shared”等目录的权限，都提示权限不够。如下图所示。<br><img src="http://olizegh9a.bkt.clouddn.com/blog/180127/jH0Ig83Ca5.png?imageslim" alt="mark"></p>
+<p>很幸运，直到我们尝试到最后一个“C:\Program Files\Program Folder”文件夹时成功了，看到Everyone（OI）（CI）（F）没有。如下图所示。</p>
+<p><img src="http://olizegh9a.bkt.clouddn.com/blog/180127/ck39D2h3JL.png?imageslim" alt="mark"></p>
+<p>“Everyone”用户对这个文件有完全控制权，就是说所有用户都具有全部权限修改这个文件夹。</p>
+<p>参数说明：“M”表示修改，“F”代表完全控制，“CI”代表从属容器将继承访问控制项，“OI”代表从属文件将继承访问控制项。这意味着对该目录有读，写，删除其下的文件，删除该目录下的子目录的权限。</p>
+<p>3.我们确认了目标主机存在此漏洞后，将便开始正式攻击。</p>
+<p>Metasploit中相对应的是Windows Service Trusted Path Privilege Escalation本地利用模块，该模块会将恶意的可执行程序放到受影响的文件夹中去，然后将受影响的服务重启。接着我们输入命令background,把当前的meterpreter shell转为后台执行。然后在Metasploit中搜索trusted_service_path模块。如下图所示。</p>
+<p><img src="http://olizegh9a.bkt.clouddn.com/blog/180127/7L77F50deK.png?imageslim" alt="mark"></p>
+<p>4.使用该exploit程序，并设置相关参数，如下图所示。<br><img src="http://olizegh9a.bkt.clouddn.com/blog/180127/e1J11572H7.png?imageslim" alt="mark"></p>
+<p>5.攻击。输入run命令，可以看到自动反弹了一个新的meterpreter，我们在此meterpreter shell下输入getuid 发现是system 权限，如下图所示。证明我们已经提权成功了。</p>
+<p><img src="http://olizegh9a.bkt.clouddn.com/blog/180127/3LAjA7HBAB.png?imageslim" alt="mark"></p>
+<p>我们浏览源代码发现，这个模块使用了一些正则表达式来过滤掉那些路径用引号包含起来的路径，以及路径中不含空格的路径，并创建一个受影响的服务的路径列表。接着该模块尝试利用列表中第一个受影响的服务，将恶意的可执行程序放到相应受影响的文件夹中去。接着受影响的服务被重启，最后，该模块会删除该恶意可执行文件。</p>
+<p>6.解决方案：当开发者没有将文件路径用引号包含起来的时候，才会发生这种行为。用引号包含起来的路径解析的时候则不存在这种行为。</p>
+<p><strong>TheEnd.</strong></p>
+
+            </div>
+
+            <!-- Post Comments -->
+            
+    <!-- 使用 changyan -->
+<div id="changyan-comment">
+    <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid="2018/01/27/系统错误配置提权之Trusted-Service-Paths/"  ></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cytwTxNn3';
+var conf = '';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+
+</div>
+<style>
+    #changyan-comment{
+        background-color: #eee;
+        padding: 2pc;
+    }
+</style>
+
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            <ul>
+                <li>&copy;Powered By <a href="https://hexo.io/zh-cn/" style="border-bottom: none;">hexo</a></li>
+                <li>Design: <a href="http://miccall.tech " style="border-bottom: none;">miccall</a></li>
+            </ul>
+            
+				<span id="busuanzi_container_site_pv"> 2018 </span> 
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
+</html>
